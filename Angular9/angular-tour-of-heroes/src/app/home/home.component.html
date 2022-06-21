@@ -1,0 +1,17 @@
+<script>
+    function xinChao(){
+        alert("Xin chao {{ pageName }}");
+    }
+</script>
+
+<p>It's {{ pageName }}</p>
+<p *ngIf="pageName == 'HomePage'"> Day la trang chu</p>
+<p *ngIf="pageName != 'HomePage'"> Day khong phai trang chu</p>
+
+<input [(ngModel)]= "pageName"/>
+<button (click)="xinChao()">Xin chao</button>
+
+<span *ngIf="num > 0; then condition1; else condition2"></span>
+<ng-template #condition1>Num > 0</ng-template>
+<ng-template #condition2>Num <= 0</ng-template>
+
