@@ -386,3 +386,26 @@ footer{
 	margin-bottom: 10px;
 }
 
+small{
+	color: red;
+	display: none;
+}
+
+
+.form-register small.sucess{
+	display: none;
+}
+
+.form-register input.sucess{
+	outline: 1px solid greenyellow;
+}
+
+.form-register small.error{
+	display: block;
+}
+
+.form-register input.error{
+	outline: 1px solid red;
+}
+
+

@@ -1,17 +1,33 @@
-<script>
-    function xinChao(){
-        alert("Xin chao {{ pageName }}");
-    }
-</script>
 
-<p>It's {{ pageName }}</p>
-<p *ngIf="pageName == 'HomePage'"> Day la trang chu</p>
-<p *ngIf="pageName != 'HomePage'"> Day khong phai trang chu</p>
+<div class="emTable">
+    <div>
+        <div>
+            <h2>List of employees</h2>
+            <button type="button" class="btn btn-secondary"><a [routerLink]="['add']"
+            routerLinkActive="router-link-active" style="color: white; text-decoration: none;">Add New Employee</a></button>
+        </div>
+        <table>
+            <tr>
+                <td>STT</td>
+                <td>Username</td>
+                <td>Fullname</td>
+                <td>Password</td>
+                <td>Address</td>
+                <td>Age</td>
+                <td>Action</td>
+            </tr>
+            <tr class="content" *ngFor="let item of lstEm; index as i;">
+                <td>{{i+1}}</td>
+                <td>{{item.username}}</td>
+                <td>{{item.fullname}}</td>
+                <td>{{item.password}}</td>
+                <td>{{item.address}}</td>
+                <td>{{item.age}}</td>
+                <td><button type="button" class="btn btn-secondary" (click)="setlectEm(item)" >Edit</button>
+                    <button type="button" class="btn btn-secondary" (click)="rmEm(item)">Delete</button></td>
+            </tr>
+        </table>
+    </div>
+</div>
 
-<input [(ngModel)]= "pageName"/>
-<button (click)="xinChao()">Xin chao</button>
-
-<span *ngIf="num > 0; then condition1; else condition2"></span>
-<ng-template #condition1>Num > 0</ng-template>
-<ng-template #condition2>Num <= 0</ng-template>
 
