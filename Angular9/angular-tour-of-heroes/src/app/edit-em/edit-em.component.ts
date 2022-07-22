@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { first, map } from 'rxjs';
 import { Employee } from '../data.employee';
+import { Product } from '../Product';
 import { EmployeeServiceService } from '../Services/employee-service.service';
+import { ProductService } from '../Services/product.service';
 
 @Component({
   selector: 'app-edit-em',
@@ -11,34 +14,43 @@ import { EmployeeServiceService } from '../Services/employee-service.service';
 })
 export class EditEmComponent implements OnInit {
 
-
-  public lstEm: Employee[];
+  code!: string;
+  public product!: Product;
 
   editForm = new FormGroup({
-    username: new FormControl(this.emService.selectedEm.username, [Validators.required, Validators.pattern(/^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/)]),
-    fullname: new FormControl(this.emService.selectedEm.fullname,  [Validators.required, Validators.maxLength(200)]),
-    password: new FormControl(this.emService.selectedEm.password, [Validators.required, Validators.maxLength(50), Validators.minLength(6)]),
-    address: new FormControl(this.emService.selectedEm.address,[Validators.required, Validators.maxLength(500)]),
-    age: new FormControl(this.emService.selectedEm.age,[Validators.required, Validators.pattern(/^.\d$/)]),
+    product_id: new FormControl('',[Validators.required, Validators.pattern(/^\d+$/)]),
+    product_code: new FormControl('', [Validators.required, Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9 ]+$/)]),
+    product_name: new FormControl('',  [Validators.required, Validators.maxLength(200), Validators.pattern(/^[a-zA-Z ]+$/)]),
+    product_color: new FormControl('', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z ]+$/)]),
+    product_price: new FormControl('',[Validators.required, Validators.pattern(/^\d+$/)]),
   });
 
-  constructor(private emService: EmployeeServiceService, private router:Router) { 
-    this.lstEm = emService.lstEm;
+  constructor(private service: ProductService, private router:Router, private route: ActivatedRoute) { 
+    
   }
 
   ngOnInit(): void {
+    this.code = this.route.snapshot.params['code'];
+    console.log(this.code)
+    this.service.getProductByCode(this.code).pipe(first()).subscribe(pro => { 
+      this.editForm.controls.product_id.setValue(pro.product_id);
+      this.editForm.controls.product_code.setValue(pro.product_code);
+      this.editForm.controls.product_name.setValue(pro.product_name);
+      this.editForm.controls.product_color.setValue(pro.product_color);
+      this.editForm.controls.product_price.setValue(pro.product_price);
+    
+    });
   }
 
   onSubmit(){
     if(this.editForm.valid){
-      var em = new Employee();
-      em.fullname = this.editForm.controls.fullname.value;
-      em.username = this.editForm.controls.username.value;
-      em.password = this.editForm.controls.password.value;
-      em.address = this.editForm.controls.address.value;
-      em.age = Number(this.editForm.controls.age.value);
-      var index = this.lstEm.indexOf(this.emService.selectedEm);
-      this.lstEm.splice(index, 1, em);
+      var pro = new Product();
+      pro.product_id = Number(this.editForm.controls.product_id.value);
+      pro.product_code = this.editForm.controls.product_code.value;
+      pro.product_name = this.editForm.controls.product_name.value;
+      pro.product_color = this.editForm.controls.product_color.value;
+      pro.product_price = Number(this.editForm.controls.product_price.value);
+      this.service.updateProduct(pro);
       this.router.navigateByUrl('');
     }
   }

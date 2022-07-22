@@ -1,0 +1,48 @@
+
+
+<div class="emTable">
+    <div>
+        <div>
+            <h2>List of employees</h2>
+            <button type="button" class="btn btn-secondary"><a [routerLink]="['add']"
+            routerLinkActive="router-link-active" style="color: white; text-decoration: none;">Add New Employee</a></button>
+        </div>
+        <!-- <table>
+            <tr>
+                <td>STT</td>
+                <td>Username</td>
+                <td>Fullname</td>
+                <td>Password</td>
+                <td>Address</td>
+                <td>Age</td>
+                <td>Action</td>
+            </tr>
+            <tr class="content" *ngFor="let item of lstEm; index as i;">
+                <td>{{i+1}}</td>
+                <td>{{item.username}}</td>
+                <td>{{item.fullname}}</td>
+                <td>{{item.password}}</td>
+                <td>{{item.address}}</td>
+                <td>{{item.age}}</td>
+                <td><button type="button" class="btn btn-secondary" (click)="setlectEm(item)" >Edit</button>
+                    <button type="button" class="btn btn-secondary" (click)="rmEm(item)">Delete</button></td>
+            </tr>
+        </table> -->
+        <div class="emlst" >
+            <ag-grid-angular
+            [defaultColDef]="defaultColDef"
+            style="width: 900px; height: 400px;"
+            class="ag-theme-balham"
+            [rowData]="rowData$ | async"
+            [columnDefs]="columnDefs"
+            [pagination]="true"
+            [paginationPageSize]="3"
+            [rowSelection]="rowSelection"
+            (gridReady)="onGridReady($event)"
+            ></ag-grid-angular>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,35 @@
+<!-- <div class="emTable">
+    <div>
+        <div>
+            <h2>List of products</h2>
+            <button type="button" class="btn btn-secondary"><a [routerLink]="['add']"
+            routerLinkActive="router-link-active" style="color: white; text-decoration: none;">Add New Product</a></button>
+        </div>
+        <table>
+            <tr>
+                <td>STT</td>
+                <td>Code</td>
+                <td>Name</td>
+                <td>Color</td>
+                <td>Price</td>
+                <td>Action</td>
+            </tr>
+            <tr class="content" *ngFor="let item of products | async; index as i;">
+                <td>{{i+1}}</td>
+                <td>{{item.product_id}}</td>
+                <td>{{item.product_name}}</td>
+                <td>{{item.product_color}}</td>
+                <td>{{item.product_price}}</td>
+                <td><button type="button" class="btn btn-secondary" >Edit</button>
+                    <button type="button" class="btn btn-secondary">Delete</button></td>
+            </tr>
+        </table>
+    </div>
+</div> -->
+<ag-grid-angular
+        style="width: 900; height: 500"
+        class="ag-theme-balham"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        [rowData]="products | async"
+></ag-grid-angular>

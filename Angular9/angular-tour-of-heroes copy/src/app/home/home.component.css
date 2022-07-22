@@ -1,0 +1,53 @@
+.emTable{
+    width: 800px;
+    margin: auto;
+    margin-top: 40px;
+    padding-top: 20px;
+    border: 1px solid #EBEDF0;
+    background-color: white;
+}
+
+table{
+    clear: right;
+    padding: 10px;
+    margin: 20px auto;
+    width: 700px;
+}
+
+table tr:first-child td {
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+table tr td {
+    padding: 10px;
+    text-align: center;
+}
+
+table tr {
+    border-bottom: 1px solid grey;
+}
+
+.emTable > div > div{
+    margin: auto;
+    width: 700px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content >td button:first-child{
+    margin-right: 10px;
+}
+
+.ag-theme-balham{
+    margin: 40px auto;
+}
+
+.ag-theme-balham{
+    --ag-borders: none;
+    --ag-borders-row: solid 1px;
+    --ag-row-border-color: grey;
+}
+

@@ -53,12 +53,16 @@ ul li {
 }
 
 .head2 .container img{
-	width: 270px;
+	width: 200px;
+	margin-top: 10px;
 }
 
 .head2{
 	background-color: #A60A02;
-	padding:  10px 0px;
+	/*padding:  10px 0px;*/
+}
+.head2 .search{
+	margin-bottom: 10px;
 }
 
 .head2 p{

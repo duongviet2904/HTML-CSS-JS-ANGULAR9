@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>database</key>
+			<string>qlbanhang</string>
+			<key>host</key>
+			<string>127.0.0.1</string>
+			<key>kcid</key>
+			<string>-924223380102621061</string>
+			<key>name</key>
+			<string>127.0.0.1</string>
+			<key>rdbms_type</key>
+			<string>mysql</string>
+			<key>sslCACertFileLocation</key>
+			<string></string>
+			<key>sslCACertFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslCertificateFileLocation</key>
+			<string></string>
+			<key>sslCertificateFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslKeyFileLocation</key>
+			<string></string>
+			<key>sslKeyFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>type</key>
+			<string>SPTCPIPConnection</string>
+			<key>useSSL</key>
+			<integer>0</integer>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>utf8</string>
+			<key>contentFilter</key>
+			<dict/>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSelection</key>
+			<data>
+			YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0
+			b3BYJG9iamVjdHMSAAGGoF8QD05TS2V5ZWRBcmNoaXZlctEICVRk
+			YXRhgAGuCwwZGhscHSEoLTE2OT5VJG51bGzTDQ4PEBQYV05TLmtl
+			eXNaTlMub2JqZWN0c1YkY2xhc3OjERITgAKAA4AEoxUWF4AFgAaA
+			CIANVHR5cGVUcm93c1RrZXlzXxAmU2VsZWN0aW9uRGV0YWlsVHlw
+			ZVByaW1hcnlLZXllZERldGFpbHPTDQ4PHh8goKCAB9IiIyQlWiRj
+			bGFzc25hbWVYJGNsYXNzZXNfEBNOU011dGFibGVEaWN0aW9uYXJ5
+			oyQmJ1xOU0RpY3Rpb25hcnlYTlNPYmplY3TSDg8pLKIqK4AJgAuA
+			DNIPLi8wWU5TLnN0cmluZ4AKWHNvaG9hZG9u0iIjMjNfEA9OU011
+			dGFibGVTdHJpbmejMjQ1WE5TU3RyaW5nWE5TT2JqZWN00g8uLziA
+			ClZtYWhhbmfSIiM6O15OU011dGFibGVBcnJheaM6PD1XTlNBcnJh
+			eVhOU09iamVjdNIiIyY/oiZAWE5TT2JqZWN0AAgAEQAaACQAKQAy
+			ADcASQBMAFEAUwBiAGgAbwB3AIIAiQCNAI8AkQCTAJcAmQCbAJ0A
+			nwCkAKkArgDXAN4A3wDgAOIA5wDyAPsBEQEVASIBKwEwATMBNQE3
+			ATkBPgFIAUoBUwFYAWoBbgF3AYABhQGHAY4BkwGiAaYBrgG3AbwB
+			vwAAAAAAAAIBAAAAAAAAAEEAAAAAAAAAAAAAAAAAAAHI
+			</data>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{0, 0}, {1348, 859}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>queries</key>
+			<string>--1--
+select khachhang.* from khachhang, nhacungcap where khachhang.`tengiaodich` = nhacungcap.`tengiaodich`;
+
+--2--
+select * from khachhang  kh inner  join dondathang ddh  on kh.makhachhang = ddh.makhachhang
+where kh.diachi = ddh.noigiaohang;
+
+--3--
+select * from  mathang mh where mahang not in(select mahang from chitietdathang);
+
+--4--
+select * from nhanvien nv where manhanvien not in(select manhanvien from dondathang);
+
+--5--
+select mh.mahang, mh.tenhang from  mathang mh inner join chitietdathang ctdh on mh.mahang = ctdh.mahang
+inner join dondathang ddh  on ctdh.sohoadon  =  ddh.sohoadon where year(ddh.ngaydathang) = 2003
+having count(ctdh.sohoadon) = 1;
+
+--6--
+select kh.makhachhang, kh.tencongty , sum(ctdh.giaban * ctdh.soluong * ctdh.mucgiamgia) as 'tong tien'  from khachhang kh inner join dondathang ddh on kh.makhachhang = ddh.makhachhang 
+inner join  chitietdathang ctdh on ddh.sohoadon = ctdh.sohoadon group by  kh.makhachhang;
+
+--7--
+select nv.manhanvien, nv.ho, nv.ten, count(ddh.`manhanvien`) as 'so hoa don' from nhanvien nv left join dondathang ddh on nv.`manhanvien` = ddh.`manhanvien` group by nv.manhanvien;
+
+--8--   
+select
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 1 THEN chitietdathang.soluong * chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T1,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 2 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T2,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 3 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T3,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 4 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T4,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 5 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T5,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 6 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T6,
+   sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 7 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T7,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 8 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T8,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 9 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T9,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 10 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T10,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 11 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T11,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 12 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS T12,
+sum(CASE YEAR(dondathang.ngaydathang)
+	WHEN 2022 THEN chitietdathang.soluong* chitietdathang.giaban * (1- chitietdathang.mucgiamgia)
+	ELSE 0 END) AS 'Tong doanh thu'
+from (chitietdathang inner join dondathang on chitietdathang.sohoadon = dondathang.sohoadon) inner join mathang on chitietdathang.mahang=mathang.mahang
+where year(dondathang.ngaydathang) = 2022
+
+
+--9--
+select mh.mahang, mh.tenhang, mh.soluong from mathang mh;
+
+--10--
+select ddh.manhanvien  from dondathang ddh inner join chitietdathang ctdh
+where ddh.sohoadon=ctdh.sohoadon
+group by ddh.manhanvien
+having sum(ctdh.`soluong`) = (select max(a.lst_sum) as max from
+(select sum(chitietdathang.soluong) as lst_sum from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien) a)
+
+
+--11--
+SELECT dondathang.sohoadon,chitietdathang.mahang,mathang.tenhang, chitietdathang.soluong,chitietdathang.soluong *chitietdathang.`giaban` *(1- mucgiamgia) as 'tong tien'
+FROM dondathang INNER JOIN chitietdathang ON dondathang.sohoadon=chitietdathang.sohoadon INNER JOIN mathang ON chitietdathang.mahang=mathang.mahang
+
+--12--
+select ncc.`macongty`, lh.`maloaihang`, mh.`mahang`, mh.`soluong` from loaihang lh inner join mathang mh on lh.`maloaihang` = mh.`maloaihang` inner join nhacungcap ncc 
+on mh.`macongty` = ncc.`macongty` group by lh.`maloaihang`
+
+--13--
+select chitietdathang.mahang, mathang.tenhang,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 1 THEN chitietdathang.soluong
+	ELSE 0 END) AS T1,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 2 THEN chitietdathang.soluong
+	ELSE 0 END) AS T2,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 3 THEN chitietdathang.soluong
+	ELSE 0 END) AS T3,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 4 THEN chitietdathang.soluong
+	ELSE 0 END) AS T4,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 5 THEN chitietdathang.soluong
+	ELSE 0 END) AS T5,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 6 THEN chitietdathang.soluong
+	ELSE 0 END) AS T6,
+    sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 7 THEN chitietdathang.soluong
+	ELSE 0 END) AS T7,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 8 THEN chitietdathang.soluong
+	ELSE 0 END) AS T8,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 9 THEN chitietdathang.soluong
+	ELSE 0 END) AS T9,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 10 THEN chitietdathang.soluong
+	ELSE 0 END) AS T10,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 11 THEN chitietdathang.soluong
+	ELSE 0 END) AS T11,
+sum(CASE MONTH(dondathang.ngaydathang)
+	WHEN 12 THEN chitietdathang.soluong
+	ELSE 0 END) AS T12,
+sum(CASE YEAR(dondathang.ngaydathang)
+	WHEN 2022 THEN chitietdathang.soluong
+	ELSE 0 END) AS sum
+from (chitietdathang inner join dondathang on chitietdathang.sohoadon = dondathang.sohoadon) inner join mathang on chitietdathang.mahang=mathang.mahang
+where year(dondathang.ngaydathang) = 2022
+group by chitietdathang.mahang, mathang.tenhang;
+
+--14--
+update dondathang set ngaychuyenhang = ngaydathang where ngaychuyenhang is null;
+
+--15--
+update dondathang, khachhang set dondathang.noigiaohang = khachhang.diachi
+where dondathang.makhachhang = khachhang.makhachhang and dondathang.noigiaohang is null;
+
+--16--
+update khachhang
+set khachhang.diachi=nhacungcap.diachi,khachhang.dienthoai=nhacungcap.dienthoai,khachhang.fax=nhacungcap.fax,khachhang.email=nhacungcap.email
+where khachhang.tencongty=nhacungcap.tencongty and khachhang.tengiaodich=nhacungcap.tengiaodich;
+
+--17--
+update nhanvien set luongcoban = luongcoban * 1.5 where manhanvien in (select manhanvien from dondathang ddh inner join chitietdathang ctdh on ddh.sohoadon = ctdh.sohoadon where year(ddh.`ngaydathang`) = 2022 
+group by ddh.manhanvien
+having sum(ctdh.soluong)&gt; 100)
+
+
+--18--
+update nhanvien set nhanvien.phucap = nhanvien.luongcoban/2
+where nhanvien.manhanvien in 
+(select ddh.manhanvien  from dondathang ddh inner join chitietdathang ctdh
+where ddh.sohoadon=ctdh.sohoadon
+group by ddh.manhanvien
+having sum(ctdh.`soluong`) = (select max(a.lst_sum) as max from
+(select sum(chitietdathang.soluong) as lst_sum from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien) a));
+
+--19--
+update nhanvien set nhanvien.luongcoban = nhanvien.luongcoban * 0.75
+where nhanvien.manhanvien in(
+select nv.manhanvien from nhanvien nv where nv.manhanvien not in(select manhanvien from dondathang where year(ngaydathang) = 2022)
+)
+
+--20--
+UPDATE dondathang SET sotien = 
+(select SUM(soluong*giaban- soluong*giaban*mucgiamgia)
+from dondathang inner join chitietdathang on dondathang.sohoadon=chitietdathang.sohoadon
+group by dondathang.sohoadon);
+
+
+--21--
+delete from mathang where mahang in(select mahang from mathang where soluong = 0 and mahang not in (select mahang from chitietdathang))
+
+
+--nang cao--
+--1--
+drop procedure themmathang;
+delimiter $$
+create procedure themmathang(
+	ma_hang VARCHAR(10),
+	ten_hang VARCHAR(50),
+	ma_cong_ty VARCHAR(10),
+	ma_loai_hang INT,
+	so_luong INT,
+	don_vi_tinh VARCHAR(20),
+	gia_hang decimal(13,2)
+)
+begin
+	if (not exists (select mahang from mathang where mahang=ma_hang))
+		then
+				insert into mathang values(ma_hang,ten_hang,ma_cong_ty,ma_loai_hang,so_luong,don_vi_tinh,gia_hang);
+	else
+		select "ma hang da ton tai" as "loi";
+	end if;
+end;
+call themmathang ("6", "mathang6", "5", 5, 100, "vnd", 150000);
+
+--2--
+
+drop procedure thongke;
+delimiter $$
+create procedure thongke(ma_hang VARCHAR(10))
+begin
+	if exists(select mahang from mathang where mahang = ma_hang)
+	then
+		select sum(soluong) from chitietdathang ctdh where ctdh.`mahang` = ma_hang group by mahang;
+	else
+		select "ma hang khong ton tai" as "loi";
+	end if;
+end
+call thongke ("3");
+
+--3.1--
+drop trigger chitietdathang_insert ;
+delimiter $$
+create trigger chitietdathang_insert 
+before INSERT
+on chitietdathang for each row
+begin
+    
+	if (select soluong from mathang where mathang.mahang= new.mahang) &gt;= new.soluong then 
+		if (new.soluong&gt;=1)then
+			update mathang set mathang.soluong = mathang.soluong-new.soluong where mathang.mahang= new.mahang;
+		else
+			SIGNAL sqlstate '45000' set message_text = "Số lượng sản phẩm phải lớn hơn hoặc bằng 1";
+		end if;
+	elseif not exists(select soluong from mathang where mathang.mahang= new.mahang) then
+		SIGNAL sqlstate '45000' set message_text =  "Mã sản phẩm không tồn tai";
+	else
+		SIGNAL sqlstate '45000' set message_text =  "Số lượng sản phẩm vượt quá số lượng trong kho";
+	end if;
+end;
+insert into chitietdathang values(3, '2', 120000, 20, 0.03 );
+
+--3.2
+drop trigger chitietdathang_update;
+delimiter $$
+create trigger chitietdathang_update
+before update
+on chitietdathang for each row
+begin
+	declare soluongthaydoi int DEFAULT 0;
+	declare soluongcon int DEFAULT 0;
+	declare soluongcu int DEFAULT 0;
+	set @soluongcon := (select soluong from mathang where mahang = new.mahang);
+	set @soluongthaydoi := (new.soluong - old.soluong);
+	if(new.soluong &lt; 1) then
+		SIGNAL sqlstate '45000' set message_text =  "so luong khong nho hon 1";
+    elseif(soluongcon &gt;= (new.soluong - old.soluong)) then
+    	update mathang set soluong = soluong + old.soluong - new.soluong where mahang = new.mahang;
+    else
+    	SIGNAL sqlstate '45000' set message_text =  "so luong hang k phu hop";
+    end if;
+end;
+
+update chitietdathang set soluong = 100 where sohoadon = 3 and mahang = '6';
+
+--4--
+drop trigger kiemtragia 
+delimiter $$
+create trigger kiemtragia 
+before insert 
+on chitietdathang for each row
+begin
+    if (select giahang from mathang where mathang.mahang= new.mahang) &lt;= new.giaban then 
+		SIGNAL sqlstate '45000' set message_text = "Giá hàng bán ra phải nhỏ hơn hoặc bằng giá gốc";
+    end if;
+end;
+
+insert into chitietdathang values(3, '4', 1000000, 20, 0.03 );</string>
+			<key>table</key>
+			<string>chitietdathang</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+			<key>windowVerticalDividerPosition</key>
+			<real>280</real>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>queryHistory</key>
+	<array>
+		<string>update chitietdathang set soluong = 100 where sohoadon = 3 and mahang = '6'</string>
+		<string>drop trigger chitietdathang_update;
+create trigger chitietdathang_update
+before update
+on chitietdathang for each row
+begin
+	declare soluongthaydoi int DEFAULT 0;
+	declare soluongcon int DEFAULT 0;
+	declare soluongcu int DEFAULT 0;
+	set @soluongcon := (select soluong from mathang where mahang = new.mahang);
+	set @soluongthaydoi := (new.soluong - old.soluong);
+	if(new.soluong &lt; 1) then
+		SIGNAL sqlstate '45000' set message_text =  "so luong khong nho hon 1";
+    elseif(soluongcon &gt;= (new.soluong - old.soluong)) then
+    	update mathang set soluong = soluong + old.soluong - new.soluong where mahang = new.mahang;
+    else
+    	SIGNAL sqlstate '45000' set message_text =  "so luong hang k phu hop";
+    end if;
+end;</string>
+		<string>--21--
+delete from mathang where mahang in(select mahang from mathang where soluong = 0 and mahang not in (select mahang from chitietdathang))
+
+
+--nang cao--
+--1--
+drop procedure themmathang</string>
+		<string>update chitietdathang set soluong = 30 where sohoadon = 3 and mahang = '6'</string>
+		<string>drop trigger chitietdathang_update;
+create trigger chitietdathang_update
+before update
+on chitietdathang for each row
+begin
+	declare soluongthaydoi int DEFAULT 0;
+	declare soluongcon int DEFAULT 0;
+	declare soluongcu int DEFAULT 0;
+	set @soluongcon := (select soluong from mathang where mahang = new.mahang);
+	set @soluongthaydoi := (new.soluong - old.soluong);
+	if(new.soluong &lt; 1) then
+		SIGNAL sqlstate '45000' set message_text =  "so luong khong nho hon 1";
+    elseif(soluongcon &gt;= soluongthaydoi) then
+    	update mathang set soluong = soluong + old.soluong - new.soluong where mahang = new.mahang;
+    else
+    	SIGNAL sqlstate '45000' set message_text =  "so luong hang k phu hop";
+    end if;
+end;</string>
+		<string>update nhanvien set luongcoban = luongcoban * 1.5 where manhanvien in (select manhanvien from dondathang ddh inner join chitietdathang ctdh on ddh.sohoadon = ctdh.sohoadon where year(ddh.`ngaydathang`) = 2022 
+group by ddh.manhanvien
+having sum(ctdh.soluong)&gt; 100)</string>
+		<string>update nhanvien set luongcoban = luongcoban * 1.5 where manhanvien = (select manhanvien from dondathang ddh inner join chitietdathang ctdh on ddh.sohoadon = ctdh.sohoadon where year(ddh.`ngaydathang`) = 2022 
+group by ddh.manhanvien
+having sum(ctdh.soluong)&gt; 100)</string>
+		<string>update nhanvien set luongcoban = luongcoban * 1.5 where manhanvien = (select manhanvien from dondathang ddh inner join chitietdathang ctdh on ddh.sohoadon = ctdh.sohoadon where year(ddh.`ngaydathang`) = 2022 group by ddh.manhanvien
+having sum(ctdh.soluong)&gt; 100</string>
+		<string>update nhanvien set luongcoban = luongcoban * 1.5 where manhanvien = (select manhanvien from dondathang ddh inner join chitietdathang ctdh on ddh.sohoadon = ctdh.sohoadon where year(ddh.`ngaydathang`) = 2022 group by `manhanvien` 
+having sum(ctdh.soluong)&gt; 100</string>
+		<string>update nhanvien set luongcoban = luongcoban * 1.5 where manhanvien = (select manhanvien from dondathang ddh inner join chitietdathang ctdh on ddh.sohoadon = ctdh.sohoadon group by `manhanvien` having sum(ctdh.soluong) &gt; 100 
+and year(ddh.`ngaydathang`) = 2022)</string>
+		<string>select ddh.manhanvien  from dondathang ddh inner join chitietdathang ctdh
+where ddh.sohoadon=ctdh.sohoadon
+group by ddh.manhanvien
+having sum(ctdh.`soluong`) = (select max(a.lst_sum) as max from
+(select sum(chitietdathang.soluong) as lst_sum from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien) a)</string>
+		<string>select ddh.manhanvien  from dondathang ddh inner join chitietdathang ctdh
+where ddh.sohoadon=ctdh.sohoadon
+group by ddh.manhanvien
+having sum(ctdh.`soluong`)&gt;= all (select sum(chitietdathang.soluong) from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien)</string>
+		<string>select sum(chitietdathang.soluong) as lst_sum from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien</string>
+		<string>select max(a.lst_sum) as max from
+(select sum(chitietdathang.soluong) as lst_sum from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien) a</string>
+		<string>select max(lst_sum) as max from
+(select sum(chitietdathang.soluong) as lst_sum from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien)</string>
+		<string>select max(lst_sum) from
+(select sum(chitietdathang.soluong) as lst_sum from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien)</string>
+		<string>select sum(chitietdathang.soluong) from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien having max(sum(chitietdathang.soluong))</string>
+		<string>select sum(chitietdathang.soluong) as tong from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien having max(tong)</string>
+		<string>select sum(chitietdathang.soluong) as quantity from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien having max(quantity)</string>
+		<string>select sum(chitietdathang.soluong) from dondathang,chitietdathang
+where dondathang.sohoadon=chitietdathang.sohoadon
+group by manhanvien</string>
+	</array>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>5.7.35</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>

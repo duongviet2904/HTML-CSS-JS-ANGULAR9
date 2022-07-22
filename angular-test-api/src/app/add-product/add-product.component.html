@@ -1,0 +1,43 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <p>Auto-resizing sidenav</p>
+    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+    <button (click)="showFiller = !showFiller" mat-raised-button>
+      Toggle extra text
+    </button>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <button type="button" mat-button (click)="drawer.toggle()">
+      Toggle sidenav
+    </button>
+  </div>
+
+</mat-drawer-container>
+<div class="form-add" [hidden]="submitted">
+    <form class="" [formGroup]="addForm" (ngSubmit)="onSubmit()">
+        <a [routerLink]="['']" routerLinkActive="router-link-active"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M447.1 256C447.1 273.7 433.7 288 416 288H109.3l105.4 105.4c12.5 12.5 12.5 32.75 0 45.25C208.4 444.9 200.2 448 192 448s-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L109.3 224H416C433.7 224 447.1 238.3 447.1 256z"/></svg></a>
+        <h2>Add new product</h2>
+        <div class="form-group">
+          <label for="username">Name</label>
+          <input type="text" class="form-control" id="product_name" placeholder="product_name" formControlName="product_name" name="product_name" required>
+          <small id="username_mes"  *ngIf="addForm.controls.product_name" class="error">Tên sản phẩm không hợp lệ</small>
+          <!-- <small id="username_mes"  *ngIf="check() && addForm.controls.username.touched" class="error">Tên đăng nhập không hợp lệ!</small> -->
+        </div>
+        <div class="form-group">
+          <label for="fullname">Color</label>
+          <input type="text" class="form-control" id="product_color" placeholder="product_color" formControlName="product_color" name="product_color" required>
+          <small id="fullname_mes"  *ngIf="addForm.controls.product_color" class="error">Màu không hợp lệ!</small>
+        </div>
+        <div class="form-group">
+            <label for="password">Price</label>
+            <input type="number" class="form-control" id="product_price" placeholder="product_price" formControlName="product_price" name="product_price" required>
+            <small id="pass_mes"  *ngIf="addForm.controls.product_price;" class="error">Giá tiền không hợp lệ!</small>
+        </div>
+        <button type="submit" class="btn btn-secondary">Submit</button>
+      </form>
+      <!-- <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput id="product_name" placeholder="product_name" formControlName="product_name" name="product_name" type="text">
+      </mat-form-field> -->
+</div>

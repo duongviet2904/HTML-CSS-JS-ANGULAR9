@@ -115,7 +115,7 @@ function checkInput(){
 	if(value_phone === ""){
 		setError("phone_mes",phone, "Số điện thoại không được để trống!");
 		error_found++;
-	}else if(!/(84|0[3|5|7|8|9])+([0-9]{8})\b/.test(value_phone)){
+	}else if(!/(84|0[3|5|7|8|9])+([0-9]{9})\b/.test(value_phone)){
 		setError("phone_mes",phone, "Số điện thoại không đúng định dạng!");
 		error_found++;
 	}else{

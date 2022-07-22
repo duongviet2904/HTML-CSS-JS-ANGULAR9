@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Employee, lstEm } from '../data.employee';
 import { EmployeeServiceService } from '../Services/employee-service.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Product } from '../Product';
+import { ProductService } from '../Services/product.service';
 
 @Component({
   selector: 'app-add-em',
@@ -11,32 +13,38 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class AddEmComponent implements OnInit {
 
-  public lstEm: Employee[];
+  public check = 0;
+  pro: Product = new Product();
 
   addForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/)]),
-    fullname: new FormControl('',  [Validators.required, Validators.maxLength(200)]),
-    password: new FormControl('', [Validators.required, Validators.maxLength(50), Validators.minLength(6)]),
-    address: new FormControl('',[Validators.required, Validators.maxLength(500)]),
-    age: new FormControl('',[Validators.required, Validators.pattern(/^.\d$/)]),
+    product_code: new FormControl('', [Validators.required, Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9 ]+$/)]),
+    product_name: new FormControl('',  [Validators.required, Validators.maxLength(200), Validators.pattern(/^[a-zA-Z ]+$/)]),
+    product_color: new FormControl('', [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z ]+$/)]),
+    product_price: new FormControl('',[Validators.required, Validators.pattern(/^\d+$/)]),
   });
-  constructor(private router: Router, private emService: EmployeeServiceService) {
-    this.lstEm = emService.lstEm;
+  constructor(private router: Router, private service: ProductService) {
   }
 
   ngOnInit(): void {
+    this.check = 0;
   }
 
   onSubmit(){
     if(this.addForm.valid){
-      var em = new Employee();
-      em.fullname = this.addForm.controls.fullname.value;
-      em.username = this.addForm.controls.username.value;
-      em.password = this.addForm.controls.password.value;
-      em.address = this.addForm.controls.address.value;
-      em.age = Number(this.addForm.controls.age.value);
-      this.lstEm.splice(this.lstEm.length, 1, em);
+      var pro = new Product();
+      pro.product_code = this.addForm.controls.product_code.value;
+      pro.product_name = this.addForm.controls.product_name.value;
+      pro.product_color = this.addForm.controls.product_color.value;
+      pro.product_price = Number(this.addForm.controls.product_price.value);
+      this.service.createProduct(pro).subscribe((data: string) => {
+        alert(data.toString());
+        this.pro = new Product();
+      }, 
+        (      error: any) => alert(error));
+      this.check = 0;
       this.router.navigateByUrl('');
+    }else{
+      this.check = 1;
     }
   }
 }

@@ -1,12 +1,64 @@
 
+
 <div class="emTable">
     <div>
         <div>
-            <h2>List of employees</h2>
+            <h2>List of Products</h2>
             <button type="button" class="btn btn-secondary"><a [routerLink]="['add']"
-            routerLinkActive="router-link-active" style="color: white; text-decoration: none;">Add New Employee</a></button>
+            routerLinkActive="router-link-active" style="color: white; text-decoration: none;">Add New Product</a></button>
+                <div
+                class="modal"
+                tabindex="-1"
+                role="dialog"
+                [ngStyle]="{'display':displayStyle}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit product</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-add">
+                            <form class="" [formGroup]="editForm" (ngSubmit)="onSubmit()">
+                                
+                                <input type="hidden" class="form-control" id="username" placeholder="Username" formControlName="product_id" name="username" required>
+                                <div class="form-group">
+                                  <label for="username">Code</label>
+                                  <input type="text" class="form-control" id="username" placeholder="Username" formControlName="product_code" name="username" required>
+                                  <small id="username_mes"  *ngIf="(editForm.controls.product_code.invalid &&editForm.controls.product_code.touched)" class="error">Mã sản phẩm không hợp lệ!</small>
+                                  <!-- <small id="username_mes"  *ngIf="check() && editForm.controls.username.touched" class="error">Tên đăng nhập không hợp lệ!</small> -->
+                                </div>
+                                <div class="form-group">
+                                  <label for="fullname">Name</label>
+                                  <input type="text" class="form-control" id="fullname" placeholder="Fullname" formControlName="product_name" name="fullname" required>
+                                  <small id="fullname_mes"  *ngIf="(editForm.controls.product_name.invalid && editForm.controls.product_name.touched)" class="error">Tên sản phẩm không hợp lệ!</small>
+                                </div>
+                                  <div class="form-group">
+                                    <label for="address">Color</label>
+                                    <input type="text" class="form-control" id="address" placeholder="Address" formControlName="product_color" name="address" required>
+                                    <small id="address_mes"  *ngIf="(editForm.controls.product_color.invalid && editForm.controls.product_color.touched)" class="error">Màu sản phẩm không hợp lệ</small>
+                                </div>
+                                  <div class="form-group">
+                                    <label for="age">Price</label>
+                                    <input type="number" class="form-control" id="age" placeholder="Age" formControlName="product_price" name="age" required >
+                                    <small id="age_mes"  *ngIf="(editForm.controls.product_price.invalid && editForm.controls.product_price.touched)" class="error">Giá tiền không hợp lệ</small>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="button" class="btn btn-danger" 
+                                            (click)="closePopup()">
+                                    Close
+                                    </button>
+                                </div>
+                              </form>
+                          </div>
+                          
+                
+                        </div>
+                    </div>
+                </div>
+                </div>
         </div>
-        <table>
+        <!-- <table>
             <tr>
                 <td>STT</td>
                 <td>Username</td>
@@ -26,8 +78,22 @@
                 <td><button type="button" class="btn btn-secondary" (click)="setlectEm(item)" >Edit</button>
                     <button type="button" class="btn btn-secondary" (click)="rmEm(item)">Delete</button></td>
             </tr>
-        </table>
+        </table> -->
+        <div class="emlst" >
+            <ag-grid-angular
+            #productGrid
+            [defaultColDef]="defaultColDef"
+            style="width: 900px; height: 400px;"
+            class="ag-theme-balham"
+            [rowData]="rowData | async"
+            [columnDefs]="columnDefs"
+            [pagination]="true"
+            [paginationPageSize]="10"
+            [rowSelection]="rowSelection"
+            ></ag-grid-angular>
+        </div>
     </div>
 </div>
+
 
 
